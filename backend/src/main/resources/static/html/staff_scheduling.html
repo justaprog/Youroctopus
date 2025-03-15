@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Staff Schedule Calendar{% endblock %}
+
+{% block extra_head %}
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <div id="calendar"></div>
+{% endblock %}
+
+{% block extra_scripts %}
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: [
+          {
+            title: 'John Doe - Morning Shift',
+            start: '2025-02-10T08:00:00',
+            end: '2025-02-10T16:00:00'
+          },
+          {
+            title: 'Jane Smith - Evening Shift',
+            start: '2025-02-12T14:00:00',
+            end: '2025-02-12T22:00:00'
+          },
+          {
+            title: 'Bob Johnson - Night Shift',
+            start: '2025-02-15T22:00:00',
+            end: '2025-02-16T06:00:00'
+          }
+          // Add more events as needed
+        ]
+      });
+      calendar.render();
+    });
+  </script>
+{% endblock %}
