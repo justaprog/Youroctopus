@@ -1,79 +1,112 @@
 package com.youroctopus.myapp.model;
 
+import jakarta.persistence.*;
+import jakarta.persistence.Table;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Entity
+@Table(name = "users")
 public class User {
-    private Integer user_id;
-    private String name;
-    private String email;
-    private String phone;
-    private String password_hash;
-    private String role;
-    private LocalDateTime created_at;
 
-    public User(Integer user_id, String name, String email, String phone, String password_hash, String role, LocalDateTime created_at) {
-        this.user_id = user_id;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password_hash = password_hash;
-        this.role = role;
-        this.created_at = created_at;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @Column(nullable = false, unique = true, length = 100)
+    private String email;
+
+    @Column(unique = true, length = 20)
+    private String phone;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String passwordHash;
+
+    @Column(nullable = false, length = 20)
+    private Role role;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
+    public Long getUserId() {
+        return userId;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getPassword_hash() {
-        return password_hash;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public LocalDateTime getCreated_at() {
-        return created_at;
-    }
-
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public void setPassword_hash(String password_hash) {
-        this.password_hash = password_hash;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setRole(String role) {
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

@@ -16,7 +16,7 @@ CREATE TABLE restaurants (
     name VARCHAR(255) NOT NULL,
     address TEXT NOT NULL,
     phone VARCHAR(20),
-    opening_hours JSONB,  -- Store opening hours as JSON
+    opening_hours VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (owner_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
@@ -46,16 +46,6 @@ CREATE TABLE reservations (
     FOREIGN KEY (table_id) REFERENCES tables(table_id) ON DELETE CASCADE
 );
 
--- Payments (Optional)
-CREATE TABLE payments (
-    payment_id SERIAL PRIMARY KEY,
-    reservation_id INT NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    status VARCHAR(20) CHECK (status IN ('pending', 'completed', 'failed')),
-    payment_method VARCHAR(50),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (reservation_id) REFERENCES reservations(reservation_id) ON DELETE CASCADE
-);
 
 -- Reviews
 CREATE TABLE reviews (
